@@ -35,8 +35,8 @@
 }
 
 .btn {
-    height: 13vh;
-    width: 19vw;
+    height: 11vh;
+    width: 15vw;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 24px;
     background: #ffffff;
@@ -207,10 +207,10 @@ a {
 /* responsive mobile and tablet screen */
 @media (max-width: 1200px) {
     .btn {
-        height: 13vh;
-        width: 24vw;
+        height: 11.4vh;
+        width: 19vw;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size: 40px;
+        font-size: 30px;
         background: #ffffff;
         color: #495057;
         border: 1px solid #ced4da;
