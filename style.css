@@ -54,32 +54,6 @@
     transform: scale(1.05);
 }
 
-/* .btn:active {
-    background: #0056b3;
-    color: #ffffff;
-} */
-
-/* Special Buttons */
-.btn.special {
-    background: #ffc107;
-    color: #212529;
-}
-
-.btn.special:hover {
-    background: #e0a800;
-    color: #ffffff;
-}
-
-.btn.equal {
-    background: #28a745;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.btn.equal:hover {
-    background: #218838;
-}
-
 
 .humberg {
     cursor: pointer;
@@ -154,11 +128,35 @@
 }
 
 .history-box {
-    font-size: 40px;
+    font-size: 34px;
     margin: 15px;
+    padding: 10px;
+    height: 86vh;
+    /* border: 2px solid black; */
+    overflow-y: auto;
 }
 
-/* CSS for right section (history box) transitions */
+.btn1 {
+    align-self: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 40vh;
+    bottom: 8px;
+    position: fixed;
+}
+
+.history-box button:hover {
+    background-color: #1e6bbe;
+    transition: 0.1s;
+    transform: scale(1.1);
+}
+
+
 .right {
     position: fixed;
     top: 0;
@@ -184,14 +182,14 @@
     top: 10px;
     /* Adjust for vertical alignment */
     cursor: pointer;
-    width: 24px;
+    width: 28px;
     /* Icon size */
-    height: 24px;
+    height: 28px;
 }
 
 
 /* Hide history icon on larger screens */
-@media (min-width: 769px) {
+@media (min-width: 1000px) {
     .right {
         position: static;
         /* Static positioning for desktop */
@@ -243,5 +241,9 @@
     .history-box {
         font-size: 40px;
         margin: 15px;
+    }
+
+    .btn1 {
+        width: 24vh;
     }
 }

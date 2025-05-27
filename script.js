@@ -80,12 +80,6 @@ function calculateResult() {
     }
 }
 
-function addToHistory(expression, result) {
-    const historyItem = document.createElement('div');
-    historyItem.textContent = `${expression} = ${result}`;
-    historyBox.prepend(historyItem);
-}
-
 function updateResultBox() {
     resultBox.value = currentExpression || "0";
 }
@@ -113,7 +107,7 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("DOMContentLoaded", function () {
     const historyIcon = document.querySelector(".right-history-img");
     const historyBox = document.querySelector(".right");
-    const mediaQuery = window.matchMedia("(max-width: 768px)"); // Mobile breakpoint
+    const mediaQuery = window.matchMedia("(max-width: 1000px)"); // Mobile breakpoint
 
     function toggleHistoryBox() {
         if (mediaQuery.matches) {
@@ -154,3 +148,50 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initial setup
     handleResize();
 });
+
+//no hisotry text
+function updateHistoryMessage() {
+    const noHistoryClass = 'no-history';
+    const noHistoryElement = historyBox.querySelector(`.${noHistoryClass}`);
+    const historyItems = Array.from(historyBox.children).filter(child => !child.matches('button'));
+
+    if (historyItems.length === 0) {
+        if (!noHistoryElement) {
+            const noHistory = document.createElement('div');
+            noHistory.classList.add(noHistoryClass);
+            noHistory.textContent = "There is No History yet";
+            historyBox.insertBefore(noHistory, historyBox.querySelector('button'));
+        }
+    } else if (noHistoryElement) {
+        noHistoryElement.remove();
+    }
+}
+
+function addToHistory(expression, result) {
+    const historyItem = document.createElement('div');
+    historyItem.textContent = `${expression} = ${result}`;
+    historyBox.insertBefore(historyItem, historyBox.querySelector('button'));
+    updateHistoryMessage();
+}
+
+function clearHistory() {
+    const historyItems = Array.from(historyBox.children).filter(child => !child.matches('button'));
+    historyItems.forEach(item => item.remove());
+    updateHistoryMessage();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const clearHistoryBtn = document.querySelector(".history-box button");
+    if (clearHistoryBtn) {
+        clearHistoryBtn.addEventListener("click", clearHistory);
+    }
+    updateHistoryMessage(); // Ensure the message is set on page load
+});
+
+
+function addToHistory(expression, result) {
+    const historyItem = document.createElement('div');
+    historyItem.textContent = `${expression} = ${result}`;
+    historyBox.prepend(historyItem);
+    updateHistoryMessage();
+}
