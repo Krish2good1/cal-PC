@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+
+        .container {
+            margin: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="date"] {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .humberg {
+            cursor: pointer;
+            position: fixed;
+            top: 25px;
+            left: 27px;
+            z-index: 1001;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .hamburger-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 5px rgba(255, 255, 255, 0.5);
+            overflow-y: auto;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding-top: 50px;
+            color: black;
+        }
+
+        .hamburger-menu.active {
+            left: 0;
+        }
+
+        .hamburger-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .hamburger-menu li {
+            padding: 15px;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+        }
+
+        .hamburger-menu li:hover {
+            background-color: #aeaeae;
+        }
+
+        .img-humberg {
+            height: 24px;
+            width: 19px;
+        }
+
+        .un {
+            text-decoration: underline 1px;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .header {
+            font-size: 28px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="header">
+            <div class="humberg">
+                <img src="../../images/hamburger.svg" alt="loading">
+                <div class="hamburger-menu">
+                    <ul>
+                        <li class="un"> Calculator </li>
+                        <a href="../../index.html">
+                            <li> <img class="img-humberg" src="../../images/calculator.png" alt="" srcset=""> Standard
+                            </li>
+                        </a>
+                        <a href="../scientific/scientific.html">
+                            <li> <img class="img-humberg" src="../../images/sciencetific.png" alt="" srcset="">
+                                Scientific
+                            </li>
+                        </a>
+                        <a href="#">
+                            <li> <img class="img-humberg" src="../../images/calendar.png" alt="" srcset=""> Date
+                                Calculation</li>
+                        </a>
+                        <li> <img class="img-humberg" src="../../images/ai.png" alt="" srcset=""> Ai calculator</li>
+                        <li class="un"> Converter </li>
+                        <li> <img class="img-humberg" src="../../images/currency.png" alt="" srcset=""> Currency</li>
+                        <li> <img class="img-humberg" src="../../images/volume.png" alt="" srcset=""> Volume</li>
+                        <li> <img class="img-humberg" src="../../images/length.png" alt="" srcset=""> Length</li>
+                        <li> <img class="img-humberg" src="../../images/mass.png" alt="" srcset=""> Weight and Mass
+                        </li>
+                        <li> <img class="img-humberg" src="../../images/temperature.png" alt="" srcset=""> Temperature
+                        </li>
+                        <li> <img class="img-humberg" src="../../images/energy.png" alt="" srcset=""> Energy</li>
+                        <li> <img class="img-humberg" src="../../images/area.png" alt="" srcset=""> Area</li>
+                        <li> <img class="img-humberg" src="../../images/speed.png" alt="" srcset=""> speed</li>
+                        <li> <img class="img-humberg" src="../../images/time.png" alt="" srcset=""> Time</li>
+                        <li> <img class="img-humberg" src="../../images/power.png" alt="" srcset=""> Power</li>
+                        <li> <img class="img-humberg" src="../../images/data.png" alt="" srcset=""> Data</li>
+                        <li> <img class="img-humberg" src="../../images/pressure.png" alt="" srcset=""> Pressure</li>
+                        <li> <img class="img-humberg" src="../../images/angle.png" alt="" srcset=""> Angle</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2>Date Calculator</h2>
+        <label for="fromDate">From</label>
+        <input type="date" id="fromDate">
+        <label for="toDate">To</label>
+        <input type="date" id="toDate">
+        <button onclick="calculateDifference()">Calculate Difference</button>
+        <div class="result" id="result">Difference will be shown here</div>
+    </div>
+
+    <script>
+        function calculateDifference() {
+            const fromDate = new Date(document.getElementById("fromDate").value);
+            const toDate = new Date(document.getElementById("toDate").value);
+
+            if (!fromDate || !toDate || isNaN(fromDate) || isNaN(toDate)) {
+                document.getElementById("result").textContent = "Please select valid dates.";
+                return;
+            }
+
+            // Calculate years, months, and days
+            let years = toDate.getFullYear() - fromDate.getFullYear();
+            let months = toDate.getMonth() - fromDate.getMonth();
+            let days = toDate.getDate() - fromDate.getDate();
+
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(toDate.getFullYear(), toDate.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Total months and days
+            const totalMonths = years * 12 + months;
+            const totalDays = Math.floor((toDate - fromDate) / (1000 * 60 * 60 * 24));
+
+            // Display results
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = `
+                <p>${years} Year, ${months} Months, and ${days} Days</p>
+                <p>${totalMonths} Months and ${days} Days</p>
+                <p>${totalDays} Days</p>
+            `;
+        }
+
+        //humberg menu js
+        const humberg = document.querySelector('.humberg');
+        const menu = document.querySelector('.hamburger-menu');
+
+        // Function to toggle the hamburger menu
+        humberg.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent the click from propagating to the document
+            menu.classList.toggle('active');
+        });
+
+        // Function to close the menu if clicking outside
+        document.addEventListener('click', (event) => {
+            if (menu.classList.contains('active') && !menu.contains(event.target) && event.target !== humberg) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // Stop propagation for clicks inside the menu
+        menu.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        //for keyboard to display 
+        document.addEventListener("keydown", (event) => {
+            const allowedkey = "0123456789+-*/().%";
+
+            if (allowedkey.includes(event.key)) {
+                appendValue(event.key);
+            } else if (event.key === "Enter") {
+                calculateDifference();
+            }
+        })
+    </script>
+</body>
+
+</html>
