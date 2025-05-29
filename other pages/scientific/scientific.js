@@ -32,7 +32,11 @@ function appendValue(value) {
         currentExpression += `**2`;
     } else if (value === '2√x') {
         currentExpression += `**(1/2)`;
-    } else if (value === 'x^y') {
+    } else if (value === 'x^3') {
+        currentExpression += `**3`
+    }else if (value === '∛x') {
+        currentExpression += `**(1/3)`
+    }else if (value === 'x^y') {
         currentExpression += '**';
     } else if (value === 'log') {
         currentExpression += 'Math.log10(';
@@ -63,6 +67,30 @@ function appendValue(value) {
         currentExpression = `1/(${currentExpression})`;
     } else if (value === '|x|') {
         currentExpression = `Math.abs(${currentExpression})`;
+    } else if (value === 'sin') {       //trigonometric
+        currentExpression += 'Math.sin((';
+    } else if (value === 'cos') {
+        currentExpression += 'Math.cos((';
+    } else if (value === 'tan') {
+        currentExpression += 'Math.tan((';
+    } else if (value === 'cot') {
+        currentExpression += 'cot(';
+    } else if (value === 'sec') {
+        currentExpression += 'sec(';
+    } else if (value === 'cosec') {
+        currentExpression += 'cosec(';
+    } else if (value === 'asin') {
+        currentExpression += 'Math.asin(';
+    } else if (value === 'acos') {
+        currentExpression += 'Math.acos(';
+    } else if (value === 'atan') {
+        currentExpression += 'Math.atan(';
+    } else if (value === 'acot') {
+        currentExpression += 'acot(';
+    } else if (value === 'asec') {
+        currentExpression += 'asec(';
+    } else if (value === 'acosec') {
+        currentExpression += 'acosec(';
     } else {
         currentExpression += value;
     }
@@ -100,27 +128,27 @@ function toggleSign() {
     }
 }
 
-function calculateResult() {
-    try {
-        let sanitizedExpression = currentExpression
-            .replace(/π/g, 'Math.PI')
-            .replace(/e/g, 'Math.E');
+// function calculateResult() {
+//     try {
+//         let sanitizedExpression = currentExpression
+//             .replace(/π/g, 'Math.PI')
+//             .replace(/e/g, 'Math.E');
 
-        // Close any open parentheses for functions like log, ln, exp
-        let openParens = (sanitizedExpression.match(/\(/g) || []).length;
-        let closeParens = (sanitizedExpression.match(/\)/g) || []).length;
-        sanitizedExpression += ')'.repeat(openParens - closeParens);
+//         // Close any open parentheses for functions like log, ln, exp
+//         let openParens = (sanitizedExpression.match(/\(/g) || []).length;
+//         let closeParens = (sanitizedExpression.match(/\)/g) || []).length;
+//         sanitizedExpression += ')'.repeat(openParens - closeParens);
 
-        const result = eval(sanitizedExpression);
+//         const result = eval(sanitizedExpression);
 
-        addToHistory(currentExpression, result);
-        currentExpression = result.toString();
-        updateResultBox();
-    } catch (error) {
-        resultBox.value = "Error";
-        setTimeout(() => updateResultBox(), 1500);
-    }
-}
+//         addToHistory(currentExpression, result);
+//         currentExpression = result.toString();
+//         updateResultBox();
+//     } catch (error) {
+//         resultBox.value = "Error";
+//         setTimeout(() => updateResultBox(), 1500);
+//     }
+// }
 
 function updateResultBox() {
     resultBox.value = currentExpression || "0";
@@ -225,106 +253,6 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-// Initialize calculator display
-updateResultBox();
-
-
-//sin cos tan cot express
-function appendValue(value) {
-    if (value === 'sin') {
-        currentExpression += 'Math.sin((';
-    } else if (value === 'cos') {
-        currentExpression += 'Math.cos((';
-    } else if (value === 'tan') {
-        currentExpression += 'Math.tan((';
-    } else if (value === 'cot') {
-        currentExpression += 'cot(';
-    } else if (value === 'sec') {
-        currentExpression += 'sec(';
-    } else if (value === 'csc') {
-        currentExpression += 'csc(';
-    } else if (value === 'asin') {
-        currentExpression += 'Math.asin(';
-    } else if (value === 'acos') {
-        currentExpression += 'Math.acos(';
-    } else if (value === 'atan') {
-        currentExpression += 'Math.atan(';
-    } else if (value === 'acot') {
-        currentExpression += 'acot(';
-    } else if (value === 'asec') {
-        currentExpression += 'asec(';
-    } else if (value === 'acosec') {
-        currentExpression += 'acosec(';
-    } else {
-        currentExpression += value;
-    }
-    updateResultBox();
-}
-
-function calculateResult() {
-    try {
-        let sanitizedExpression = currentExpression
-            .replace(/π/g, 'Math.PI')
-            .replace(/e/g, 'Math.E');
-
-        // Degree to radian for sin, cos, tan
-        sanitizedExpression = sanitizedExpression.replace(
-            /Math\.(sin|cos|tan)\(\(/g,
-            match => `${match}Math.PI/180*`
-        );
-
-        // cot, sec, csc definitions
-        sanitizedExpression = sanitizedExpression.replace(
-            /cot\(([^)]+)\)/g,
-            '1/Math.tan(($1) * Math.PI / 180)'
-        );
-        sanitizedExpression = sanitizedExpression.replace(
-            /sec\(([^)]+)\)/g,
-            '1/Math.cos(($1) * Math.PI / 180)'
-        );
-        sanitizedExpression = sanitizedExpression.replace(
-            /csc\(([^)]+)\)/g,
-            '1/Math.sin(($1) * Math.PI / 180)'
-        )
-
-        // Inverse trig functions output in degrees
-        sanitizedExpression = sanitizedExpression.replace(
-            /Math\.(asin|acos|atan)\(([^)]+)\)/g,
-            '((Math.$1($2)) * 180 / Math.PI)'
-        );
-
-        // Define inverse cot, sec, cosec (acot, asec, acosec)
-        sanitizedExpression = sanitizedExpression.replace(
-            /acot\(([^)]+)\)/g,
-            '((Math.PI / 2 - Math.atan($1)) * 180 / Math.PI)'
-        );
-        sanitizedExpression = sanitizedExpression.replace(
-            /asec\(([^)]+)\)/g,
-            '((Math.acos(1 / $1)) * 180 / Math.PI)'
-        );
-        sanitizedExpression = sanitizedExpression.replace(
-            /acosec\(([^)]+)\)/g,
-            '((Math.asin(1 / $1)) * 180 / Math.PI)'
-        );
-
-        // Close parentheses if needed
-        const openParens = (sanitizedExpression.match(/\(/g) || []).length;
-        const closeParens = (sanitizedExpression.match(/\)/g) || []).length;
-        sanitizedExpression += ')'.repeat(openParens - closeParens);
-
-        const result = eval(sanitizedExpression);
-
-        addToHistory(currentExpression, result);
-        currentExpression = result.toString();
-        updateResultBox();
-    } catch (error) {
-        resultBox.value = "Error";
-        setTimeout(() => updateResultBox(), 1500);
-    }
-}
-
-
-
 //button swicher
 //for 1st clicking
 let isFirstSet = true;
@@ -350,7 +278,7 @@ function togglebtn() {
         <button onclick="appendValue('∛x')" class="btn">∛x</button>
             <button onclick="appendValue('cot')" class="btn">cot</button>
             <button onclick="appendValue('sec')" class="btn">sec</button>
-            <button onclick="appendValue('csc')" class="btn">cosec</button>
+            <button onclick="appendValue('cosec')" class="btn">cosec</button>
             <button onclick="appendValue('%')" class="btn">%</button>
         `;
     } else {
@@ -421,4 +349,50 @@ function togglebtn2() {
 
     // Toggle the set state
     isFirstSet = !isFirstSet;
+}
+
+
+//trigonometric function
+function calculateResult() {
+    try {
+        let sanitizedExpression = currentExpression
+            .replace(/π/g, 'Math.PI')
+            .replace(/e/g, 'Math.E');
+
+        // Degree to radian for sin, cos, tan
+        sanitizedExpression = sanitizedExpression.replace(
+            /Math\.(sin|cos|tan)\(/g,
+            match => `${match}Math.PI/180*`
+        );
+
+        // cot, sec, csc definitions (in degrees)
+        sanitizedExpression = sanitizedExpression.replace(/cot\(([^)]*)\)/g, '(1 / Math.tan($1 * Math.PI / 180))');
+        sanitizedExpression = sanitizedExpression.replace(/sec\(([^)]*)\)/g, '(1 / Math.cos($1 * Math.PI / 180))'); // FIX: Added parentheses and degree conversion
+        sanitizedExpression = sanitizedExpression.replace(/cosec\(([^)]*)\)/g, '(1 / Math.sin($1 * Math.PI / 180))'); // FIX: Added parentheses and degree conversion
+
+        // Inverse trig functions output in degrees
+        sanitizedExpression = sanitizedExpression.replace(
+            /Math\.(asin|acos|atan)\(([^)]+)\)/g,
+            '((Math.$1($2)) * 180 / Math.PI)'
+        );
+
+        // Define inverse cot, sec, cosec (acot, asec, acosec)
+        sanitizedExpression = sanitizedExpression.replace(/acot\(/g, '(Math.atan(1/');
+        sanitizedExpression = sanitizedExpression.replace(/asec\(/g, '(Math.acos(1/');
+        sanitizedExpression = sanitizedExpression.replace(/acosec\(/g, '(Math.asin(1/');
+
+        // Close parentheses if needed
+        const openParens = (sanitizedExpression.match(/\(/g) || []).length;
+        const closeParens = (sanitizedExpression.match(/\)/g) || []).length;
+        sanitizedExpression += ')'.repeat(openParens - closeParens);
+
+        const result = eval(sanitizedExpression);
+
+        addToHistory(currentExpression, result);
+        currentExpression = result.toString();
+        updateResultBox();
+    } catch (error) {
+        resultBox.value ="This is server side error";
+        // setTimeout(() => updateResultBox(), 1500);
+    }
 }
