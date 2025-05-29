@@ -38,7 +38,8 @@ function appendValue(value) {
         currentExpression += 'Math.log10(';
     } else if (value === 'ln') {
         currentExpression += 'Math.log(';
-    } else if (value === 'n!') {
+    }
+    else if (value === 'n!') {
         // Calculate factorial only if expression is a valid integer
         try {
             const val = eval(currentExpression);
@@ -56,8 +57,8 @@ function appendValue(value) {
         }
     } else if (value === '10^x') {
         currentExpression += '10**';
-    } else if (value === 'exp') {
-        currentExpression += 'Math.exp(';
+    } else if (value === 'e^x') {
+        currentExpression += 'e**';
     } else if (value === '1/x') {
         currentExpression = `1/(${currentExpression})`;
     } else if (value === '|x|') {
@@ -226,3 +227,198 @@ document.addEventListener("keydown", (event) => {
 
 // Initialize calculator display
 updateResultBox();
+
+
+//sin cos tan cot express
+function appendValue(value) {
+    if (value === 'sin') {
+        currentExpression += 'Math.sin((';
+    } else if (value === 'cos') {
+        currentExpression += 'Math.cos((';
+    } else if (value === 'tan') {
+        currentExpression += 'Math.tan((';
+    } else if (value === 'cot') {
+        currentExpression += 'cot(';
+    } else if (value === 'sec') {
+        currentExpression += 'sec(';
+    } else if (value === 'csc') {
+        currentExpression += 'csc(';
+    } else if (value === 'asin') {
+        currentExpression += 'Math.asin(';
+    } else if (value === 'acos') {
+        currentExpression += 'Math.acos(';
+    } else if (value === 'atan') {
+        currentExpression += 'Math.atan(';
+    } else if (value === 'acot') {
+        currentExpression += 'acot(';
+    } else if (value === 'asec') {
+        currentExpression += 'asec(';
+    } else if (value === 'acosec') {
+        currentExpression += 'acosec(';
+    } else {
+        currentExpression += value;
+    }
+    updateResultBox();
+}
+
+function calculateResult() {
+    try {
+        let sanitizedExpression = currentExpression
+            .replace(/π/g, 'Math.PI')
+            .replace(/e/g, 'Math.E');
+
+        // Degree to radian for sin, cos, tan
+        sanitizedExpression = sanitizedExpression.replace(
+            /Math\.(sin|cos|tan)\(\(/g,
+            match => `${match}Math.PI/180*`
+        );
+
+        // cot, sec, csc definitions
+        sanitizedExpression = sanitizedExpression.replace(
+            /cot\(([^)]+)\)/g,
+            '1/Math.tan(($1) * Math.PI / 180)'
+        );
+        sanitizedExpression = sanitizedExpression.replace(
+            /sec\(([^)]+)\)/g,
+            '1/Math.cos(($1) * Math.PI / 180)'
+        );
+        sanitizedExpression = sanitizedExpression.replace(
+            /csc\(([^)]+)\)/g,
+            '1/Math.sin(($1) * Math.PI / 180)'
+        )
+
+        // Inverse trig functions output in degrees
+        sanitizedExpression = sanitizedExpression.replace(
+            /Math\.(asin|acos|atan)\(([^)]+)\)/g,
+            '((Math.$1($2)) * 180 / Math.PI)'
+        );
+
+        // Define inverse cot, sec, cosec (acot, asec, acosec)
+        sanitizedExpression = sanitizedExpression.replace(
+            /acot\(([^)]+)\)/g,
+            '((Math.PI / 2 - Math.atan($1)) * 180 / Math.PI)'
+        );
+        sanitizedExpression = sanitizedExpression.replace(
+            /asec\(([^)]+)\)/g,
+            '((Math.acos(1 / $1)) * 180 / Math.PI)'
+        );
+        sanitizedExpression = sanitizedExpression.replace(
+            /acosec\(([^)]+)\)/g,
+            '((Math.asin(1 / $1)) * 180 / Math.PI)'
+        );
+
+        // Close parentheses if needed
+        const openParens = (sanitizedExpression.match(/\(/g) || []).length;
+        const closeParens = (sanitizedExpression.match(/\)/g) || []).length;
+        sanitizedExpression += ')'.repeat(openParens - closeParens);
+
+        const result = eval(sanitizedExpression);
+
+        addToHistory(currentExpression, result);
+        currentExpression = result.toString();
+        updateResultBox();
+    } catch (error) {
+        resultBox.value = "Error";
+        setTimeout(() => updateResultBox(), 1500);
+    }
+}
+
+
+
+//button swicher
+//for 1st clicking
+let isFirstSet = true;
+
+function togglebtn() {
+    const switchBtn1 = document.getElementById("swich-btn");
+    const switchBtn2 = document.getElementById("swich-btn2");
+
+    // Clear the content inside both switchBtn1 and switchBtn2
+    switchBtn1.innerHTML = "";
+    switchBtn2.innerHTML = "";
+
+    if (isFirstSet) {
+        // Show the second set of buttons for both switchBtn1 and switchBtn2
+        switchBtn1.innerHTML = `
+            <button onclick="togglebtn2()" class="btn">2<sup>nd</sup></button>
+            <button onclick="appendValue('sin')" class="btn">sin</button>
+            <button onclick="appendValue('cos')" class="btn">cos</button>
+            <button onclick="appendValue('tan')" class="btn">tan</button>
+            <button onclick="appendValue('x^3')" class="btn">x<sup>3</sup></button>
+        `;
+        switchBtn2.innerHTML = `
+        <button onclick="appendValue('∛x')" class="btn">∛x</button>
+            <button onclick="appendValue('cot')" class="btn">cot</button>
+            <button onclick="appendValue('sec')" class="btn">sec</button>
+            <button onclick="appendValue('csc')" class="btn">cosec</button>
+            <button onclick="appendValue('%')" class="btn">%</button>
+        `;
+    } else {
+        // Show the first set of buttons for both switchBtn1 and switchBtn2
+        switchBtn1.innerHTML = `
+            <button onclick="togglebtn2()" class="btn">2<sup>nd</sup></button>
+            <button onclick="appendValue('1/x')" class="btn">1/x</button>
+            <button onclick="appendValue('|x|')" class="btn">|x|</button>
+            <button onclick="appendValue('10^x')" class="btn">10<sup>x</sup></button>
+            <button onclick="appendValue('e^x')" class="btn">e<sup>x</sup></button>
+        `;
+        switchBtn2.innerHTML = `
+            <button onclick="appendValue('x^2')" class="btn">x<sup>2</sup></button>
+            <button onclick="appendValue('2√x')" class="btn">2√x</button>
+            <button onclick="appendValue('log')" class="btn">log</button>
+            <button onclick="appendValue('ln')" class="btn">ln</button>
+            <button onclick="appendValue('/')" class="btn">÷</button>
+        `;
+    }
+
+    // Toggle the set state
+    isFirstSet = !isFirstSet;
+}
+
+//for 2nd clicking
+
+function togglebtn2() {
+    const switchBtn1 = document.getElementById("swich-btn");
+    const switchBtn2 = document.getElementById("swich-btn2");
+
+    // Clear the content inside both switchBtn1 and switchBtn2
+    switchBtn1.innerHTML = "";
+    switchBtn2.innerHTML = "";
+
+    if (isFirstSet) {
+        // Show the second set of buttons for both switchBtn1 and switchBtn2
+        switchBtn1.innerHTML = `
+            <button onclick="togglebtn2()" class="btn">2<sup>nd</sup></button>
+            <button onclick="appendValue('asin')" class="btn">sin<sup>-1</sup></button>
+            <button onclick="appendValue('acos')" class="btn">cos<sup>-1</sup></button>
+            <button onclick="appendValue('atan')" class="btn">tan<sup>-1</sup></button>
+            <button onclick="appendValue('x^3')" class="btn">x<sup>3</sup></button>
+        `;
+        switchBtn2.innerHTML = `
+        <button onclick="appendValue('∛x')" class="btn">∛x</button>
+            <button onclick="appendValue('acot')" class="btn">cot<sup>-1</sup></button>
+            <button onclick="appendValue('asec')" class="btn">sec<sup>-1</sup></button>
+            <button onclick="appendValue('acosec')" class="btn">cosec<sup>-1</sup></button>
+            <button onclick="appendValue('%')" class="btn">%</button>
+        `;
+    } else {
+        // Show the first set of buttons for both switchBtn1 and switchBtn2
+        switchBtn1.innerHTML = `
+            <button onclick="togglebtn2()" class="btn">2<sup>nd</sup></button>
+            <button onclick="appendValue('1/x')" class="btn">1/x</button>
+            <button onclick="appendValue('|x|')" class="btn">|x|</button>
+            <button onclick="appendValue('10^x')" class="btn">10<sup>x</sup></button>
+            <button onclick="appendValue('e^x')" class="btn">e<sup>x</sup></button>
+        `;
+        switchBtn2.innerHTML = `
+            <button onclick="appendValue('x^2')" class="btn">x<sup>2</sup></button>
+            <button onclick="appendValue('2√x')" class="btn">2√x</button>
+            <button onclick="appendValue('log')" class="btn">log</button>
+            <button onclick="appendValue('ln')" class="btn">ln</button>
+            <button onclick="appendValue('/')" class="btn">÷</button>
+        `;
+    }
+
+    // Toggle the set state
+    isFirstSet = !isFirstSet;
+}
