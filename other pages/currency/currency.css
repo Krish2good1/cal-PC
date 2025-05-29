@@ -155,12 +155,12 @@ a {
 /* responsive mobile and tablet screen */
 @media (max-width: 1200px) {
     .btn {
-        height: 10vh;
+        height: 14vh;
         width: 32.5vw;
+        font-size: 44px;
     }
 
     .result {
-        flex-direction: column;
         gap: 15px;
     }
 
