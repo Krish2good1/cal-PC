@@ -156,8 +156,8 @@ a {
 @media (max-width: 1200px) {
     .btn {
         height: 14vh;
-        width: 32.5vw;
-        font-size: 44px;
+        width: 32vw;
+        font-size: 34px;
     }
 
     .result {
