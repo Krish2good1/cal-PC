@@ -59,27 +59,29 @@ function appendValue(value) {
     inputValue.value += value;
 }
 
+//c and CE
 function clearAll() {
     inputValue.value = '';
     outputValue.value = '';
 }
 
+//backspace
 function clearResult() {
-    outputValue.value = '';
+    inputValue.value = inputValue.value.slice(0, -1);
 }
+
 
 //for keyboard to display 
 document.addEventListener("keydown", (event) => {
-    const allowedkey = "0123456789+-*/().%";
-    const resultBox = document.getElementsByClassName("result-box");
+    const allowedKeys = "0123456789+-*/().%";
 
-    if (allowedkey.includes(event.key)) {
-        appendValue(event.key);
+    if (allowedKeys.includes(event.key)) {
+        appendValue(event.key); // Append allowed keys
     } else if (event.key === "Enter") {
-        calculateResult();
+        calculateResult(); // Calculate on Enter
     } else if (event.key === "Backspace") {
-        clearResult();
-    } else if (event.key === "c") {
-        clearAll();
+        clearResult(); // Handle Backspace
+    } else if (event.key.toLowerCase() === "c") {
+        clearAll(); // Clear all on 'c'
     }
-})
+});
