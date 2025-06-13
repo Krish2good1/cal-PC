@@ -52,7 +52,7 @@ function appendValue(value) {
 }
 
 //Main logic
-   const areaConversionToSquareMeters = {
+const areaConversionToSquareMeters = {
     "Hectares": 10000,                // 1 Hectare = 10,000 Square meters
     "Acres": 4046.86,                // 1 Acre = 4046.86 Square meters
     "Square millimeters": 0.000001,  // 1 mm² = 0.000001 Square meters
@@ -64,7 +64,6 @@ function appendValue(value) {
     "Square yards": 0.836127,        // 1 yd² = 0.836127 Square meters
     "Square miles": 2.59e6,          // 1 mi² = 2,590,000 Square meters
 };
-
 
 // Function to convert area
 function calculateResult() {
@@ -89,5 +88,6 @@ function calculateResult() {
     const baseValue = inputValue * fromToBase; // Convert to base unit
     const result = baseValue / toFromBase;    // Convert to target unit
 
-    document.querySelector(".output-value").value = result.toPrecision(6);
+    // Display result with 6 decimal places
+    document.querySelector(".output-value").value = result.toFixed(6);
 }

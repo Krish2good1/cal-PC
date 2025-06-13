@@ -53,10 +53,10 @@ function appendValue(value) {
 
 //Main Loigc
 const pressureConversionFactors = {
-  Atmospheres: 1,
-  Bars: 1.01325,
-  Kilopascals: 101.325,
-  Pascals: 101325,
+  "Atmospheres": 1,
+  "Bars": 1.01325,
+  "Kilopascals": 101.325,
+  "Pascals": 101325,
 };
 
 function calculateResult() {

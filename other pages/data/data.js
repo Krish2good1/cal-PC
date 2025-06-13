@@ -53,10 +53,10 @@ function appendValue(value) {
 
 //Main Loigc
 const conversionFactors = {
-  Bits: 1,
-  Kilobits: 1000,
-  Bytes: 8,
-  Kilobytes: 1024 * 8,
+  "Bits": 1,
+  "Kilobits": 1000,
+  "Bytes": 8,
+  "Kilobytes": 1024 * 8,
   "Megabits(MB)": 1024 * 1024 * 8 / 8,
   "Gigabytes(GB)": 1024 * 1024 * 1024 * 8 / 8,
   "Terabytes(TB)": 1024 * 1024 * 1024 * 1024 * 8 / 8,

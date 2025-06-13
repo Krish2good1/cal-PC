@@ -53,7 +53,7 @@ function appendValue(value) {
 
 //Main logic
 const conversionRates = {
-    "Electron volts(ev)_to_Joules": 1.60218e-19,
+     "Electron volts(ev)_to_Joules": 1.60218e-19,
     "Joules_to_Electron volts(ev)": 1 / 1.60218e-19,
     "Joules_to_Kilojoules": 1e-3,
     "Kilojoules_to_Joules": 1e3,
@@ -63,6 +63,24 @@ const conversionRates = {
     "Food calories_to_Thermal calories": 1000,
     "Joules_to_Kilowatt-hours": 2.77778e-7,
     "Kilowatt-hours_to_Joules": 1 / 2.77778e-7,
+    "Electron volts(ev)_to_Kilojoules": 1.60218e-22,
+    "Kilojoules_to_Electron volts(ev)": 1 / 1.60218e-22,
+    "Electron volts(ev)_to_Thermal calories": 3.8293e-20,
+    "Thermal calories_to_Electron volts(ev)": 1 / 3.8293e-20,
+    "Electron volts(ev)_to_Food calories": 3.8293e-23,
+    "Food calories_to_Electron volts(ev)": 1 / 3.8293e-23,
+    "Electron volts(ev)_to_Kilowatt-hours": 4.4505e-23,
+    "Kilowatt-hours_to_Electron volts(ev)": 1 / 4.4505e-23,
+    "Kilojoules_to_Thermal calories": 239.006,
+    "Thermal calories_to_Kilojoules": 1 / 239.006,
+    "Kilojoules_to_Food calories": 0.239006,
+    "Food calories_to_Kilojoules": 1 / 0.239006,
+    "Kilojoules_to_Kilowatt-hours": 2.77778e-4,
+    "Kilowatt-hours_to_Kilojoules": 1 / 2.77778e-4,
+    "Thermal calories_to_Kilowatt-hours": 2.77778e-7,
+    "Kilowatt-hours_to_Thermal calories": 1 / 2.77778e-7,
+    "Food calories_to_Kilowatt-hours": 2.77778e-4,
+    "Kilowatt-hours_to_Food calories": 1 / 2.77778e-4,
     // Add more conversions as needed
 };
 

@@ -71,17 +71,18 @@ function calculateResult() {
         return;
     }
 
+    // Fetch conversion rates
     const fromToBase = speedConversionToMetersPerSecond[fromUnit];
     const toFromBase = speedConversionToMetersPerSecond[toUnit];
 
-    if (fromToBase === undefined || toFromBase === undefined) {
+    if (!fromToBase || !toFromBase) {
         alert(`Conversion from ${fromUnit} to ${toUnit} is not supported.`);
         return;
     }
 
-    // Conversion logic
-    const baseValue = inputValue * fromToBase; // Convert to base unit
+    // Perform conversion
+    const baseValue = inputValue * fromToBase; // Convert to meters per second
     const result = baseValue / toFromBase;    // Convert to target unit
 
-    document.querySelector(".output-value").value = result.toPrecision(6);
+    document.querySelector(".output-value").value = result.toFixed(6); // Precision up to 6 decimals
 }
