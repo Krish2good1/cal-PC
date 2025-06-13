@@ -205,14 +205,14 @@ a {
     .btn {
         height: 13vh;
         width: 24vw;
-        font-size: 40px;
+        font-size: 30px;
     }
 
     .result-box {
         height: 10vh;
         width: 97vw;
         border: none;
-        font-size: 62px;
+        font-size: 56px;
         text-align: right;
     }
 
